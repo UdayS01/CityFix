@@ -2,9 +2,14 @@ import { getApps, initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
 if (!getApps().length) {
-  const serviceAccountStr = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
-  if (serviceAccountStr) {
+  const serviceAccountRaw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+  if (serviceAccountRaw) {
     try {
+      // Decode Base64 if it doesn't start with '{' (raw JSON)
+      const serviceAccountStr = serviceAccountRaw.startsWith('{') 
+        ? serviceAccountRaw 
+        : Buffer.from(serviceAccountRaw, 'base64').toString('utf8');
+        
       const serviceAccount = JSON.parse(serviceAccountStr);
       initializeApp({
         credential: cert(serviceAccount),
