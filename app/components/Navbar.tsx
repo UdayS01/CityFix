@@ -139,8 +139,7 @@ export default function Navbar() {
               <img
                 src={user.photoURL}
                 alt="Profile"
-                className="w-8 h-8 rounded-full object-cover ring-1"
-                style={{ ringColor: "rgba(255,255,255,0.1)" }}
+                className="w-8 h-8 rounded-full object-cover ring-1 ring-white/10"
               />
             ) : (
               <div
